@@ -3,13 +3,74 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Move Analyze</title>
+  <title>Move Analyze — Taekwondo Posture Checker</title>
+  <link rel="stylesheet" href="/src/styles.css" />
 </head>
 <body>
-  <h1>Taekwondo Analyzer</h1>
-  <video id="video" autoplay playsinline></video>
-  <canvas id="canvas"></canvas>
-  <div id="score"></div>
+  <div class="app">
+    <header class="app-header">
+      <div>
+        <h1>Move Analyze · Taekwondo</h1>
+        <div class="subtitle">Vérifie tes postures à partir d'une photo, vidéo ou webcam — basé sur MediaPipe Pose.</div>
+      </div>
+      <div class="controls">
+        <div class="group">
+          <select id="spec-select" title="Posture cible"></select>
+        </div>
+        <div class="group">
+          <button id="btn-webcam" class="primary">Webcam</button>
+          <button id="btn-pause" disabled hidden>⏸ Pause</button>
+          <button id="btn-stop" disabled>Stop</button>
+        </div>
+        <div class="group">
+          <label>
+            <input type="file" id="file-input" accept="image/*,video/*" style="display:none" />
+            <button id="btn-upload">Charger image / vidéo…</button>
+          </label>
+        </div>
+        <div class="group">
+          <button id="btn-export" title="Exporter le spec courant en JSON">Export spec</button>
+        </div>
+      </div>
+    </header>
+
+    <section class="poomse-bar" id="poomse-bar">
+      <div class="poomse-pick">
+        <label for="poomse-select">Poomse</label>
+        <select id="poomse-select" title="Choisir un poomse">
+          <option value="">— Aucun (postures libres) —</option>
+        </select>
+      </div>
+      <div class="poomse-nav" id="poomse-nav" hidden>
+        <button id="btn-prev-step" title="Mouvement précédent">‹</button>
+        <div class="poomse-step-info">
+          <div class="poomse-step-title" id="poomse-step-title">—</div>
+          <div class="poomse-step-desc" id="poomse-step-desc">—</div>
+        </div>
+        <button id="btn-next-step" title="Mouvement suivant">›</button>
+      </div>
+    </section>
+
+    <div class="stage" id="stage">
+      <video id="video" autoplay playsinline muted></video>
+      <img id="image" alt="" />
+      <canvas id="canvas"></canvas>
+      <div class="badge-status" id="status-badge"></div>
+      <div class="placeholder" id="placeholder">
+        Choisis une posture puis lance la webcam ou charge un fichier.
+      </div>
+      <div class="loading-overlay" id="loading-overlay" hidden>
+        <div class="spinner" aria-hidden="true"></div>
+        <div class="loading-text" id="loading-text">Chargement…</div>
+      </div>
+    </div>
+
+    <aside class="panel" id="report-panel">
+      <div class="empty">
+        <p>Choisis une posture et démarre une source.</p>
+      </div>
+    </aside>
+  </div>
 
   <script type="module" src="/src/main.ts"></script>
 </body>
